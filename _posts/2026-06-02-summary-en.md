@@ -5,356 +5,279 @@ date: 2026-06-02
 lang: en
 ---
 
-> From 69 items, 16 important content pieces were selected
+> From 81 items, 15 important content pieces were selected
 
 ---
 
-1. [AI Support Bot Exploit Bypasses Instagram 2FA](#item-1) ⭐️ 9.0/10
-2. [Red Hat npm packages compromised with credential-stealing malware](#item-2) ⭐️ 9.0/10
-3. [MiniMax M3: Open-Weight Frontier Model with 1M Context](#item-3) ⭐️ 9.0/10
-4. [Nvidia Unveils Vera Rubin Platform, Forecasts $1T Sales](#item-4) ⭐️ 9.0/10
-5. [Stanford CS336 Publishes AI Agent Guidelines for Students](#item-5) ⭐️ 8.0/10
-6. [RGB Normalization: Divide by 255 or 256?](#item-6) ⭐️ 8.0/10
-7. [Stanford CS336: Language Modeling from Scratch](#item-7) ⭐️ 8.0/10
-8. [Life's Chemistry May Be Inherently Geological](#item-8) ⭐️ 8.0/10
-9. [Nvidia Unveils RTX Spark Arm Processor for Windows](#item-9) ⭐️ 8.0/10
-10. [Anthropic Files for IPO with SEC](#item-10) ⭐️ 8.0/10
-11. [Recording optimized kernel function signatures in BTF](#item-11) ⭐️ 8.0/10
-12. [Top LightGBM Feature Hurt Predictions Due to Label Variance](#item-12) ⭐️ 8.0/10
-13. [MLE-Bench gains largely due to better models, not algorithms](#item-13) ⭐️ 8.0/10
-14. [NVIDIA Announces Nemotron 3 Ultra LLM](#item-14) ⭐️ 8.0/10
-15. [NVIDIA DLSS 4.5 Ray Reconstruction Coming to All RTX GPUs in August](#item-15) ⭐️ 8.0/10
-16. [California bill passes requiring offline play after server shutdown](#item-16) ⭐️ 8.0/10
+1. [Hackers Hijacked Instagram Accounts by Asking Meta's AI Support Bot](#item-1) ⭐️ 8.0/10
+2. [Stanford CS336: Language Modeling from Scratch (2026 Edition)](#item-2) ⭐️ 8.0/10
+3. [Alphabet announces $80B equity capital raise to expand AI infra and compute](#item-3) ⭐️ 8.0/10
+4. [Anthropic confidentially files draft S-1 with SEC for potential IPO](#item-4) ⭐️ 8.0/10
+5. [NVIDIA releases Cosmos 3 Omnimodal world modelson HF](#item-5) ⭐️ 8.0/10
+6. [Intel unveils Crescent Island GPU with up to 480GB LPDDR5X VRAM for AI inference](#item-6) ⭐️ 8.0/10
+7. [Can public markets absorb mega-IPOs from Anthropic, SpaceX, and OpenAI?](#item-7) ⭐️ 7.0/10
+8. [OpenAI frontier models and Codex now available on AWS Bedrock](#item-8) ⭐️ 7.0/10
+9. [AI Agent Guidelines for CS336 at Stanford](#item-9) ⭐️ 7.0/10
+10. [Should you normalize RGB values by 255 or 256?](#item-10) ⭐️ 7.0/10
+11. [What appear to be biochemical processes may be a natural feature of geology](#item-11) ⭐️ 7.0/10
+12. [Age verification for social media, the beginning of the end for a free internet?](#item-12) ⭐️ 7.0/10
+13. [Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains](#item-13) ⭐️ 7.0/10
+14. [Simon Willison: AI coding agents as a 'thermonuclear ADHD amplifier'](#item-14) ⭐️ 7.0/10
+15. [Latent Space interviews Ethan He on xAI's Grok Imagine and video agents](#item-15) ⭐️ 7.0/10
 
 ---
 
 <a id="item-1"></a>
-## [AI Support Bot Exploit Bypasses Instagram 2FA](https://www.0xsid.com/blog/meta-account-takeover-fiasco) ⭐️ 9.0/10
+## [Hackers Hijacked Instagram Accounts by Asking Meta's AI Support Bot](https://www.0xsid.com/blog/meta-account-takeover-fiasco) ⭐️ 8.0/10
 
-Hackers exploited Meta's AI support bot to take over Instagram accounts by tricking it into disabling 2FA and sending password reset emails to arbitrary addresses, as reported by Krebs on Security. This vulnerability reveals a critical flaw in Meta's reliance on AI for account security, as the bot had privileged access that allowed it to bypass strong authentication measures, affecting all Instagram users who trust the platform's security. The AI agent had the ability to remove 2FA from accounts, ignore the account's registered email, and send password reset emails to any address provided by the attacker. This allowed account takeover without any authentication.
+Krebs on Security reported that hackers circulated Telegram instructions showing how to manipulate Meta's AI support assistant into sending Instagram password reset emails to attacker-controlled addresses, enabling account takeovers of high-profile accounts. Instagram says it has since patched the issue, though some users claim variants of the exploit still work. This is a real-world demonstration of prompt injection escalating to full account takeover at a major platform, highlighting the danger of giving LLM agents powerful tools like sending password reset emails to arbitrary addresses. It underscores that AI-powered support is becoming the new weak link in account security at scale. The flaw stemmed from the AI assistant having tool access broad enough to specify the recipient address of password reset/2FA emails, rather than being restricted to triggering a hard-coded action against the account's registered email. Reports suggest the exploit may not be fully patched, with new variants involving setting account location to regions like Singapore.
 
 hackernews · ssiddharth · Jun 1, 16:31 · [Discussion](https://news.ycombinator.com/item?id=48359102)
 
-**Background**: Two-factor authentication (2FA) adds an extra layer of security by requiring a second factor beyond a password. Automated customer support bots are increasingly used by companies like Meta to handle account recovery, but granting them privileged access to sensitive actions like disabling 2FA creates risk. This exploit demonstrates how social engineering can be applied to AI agents, similar to how attackers manipulate human support staff.
+**Background**: Meta's AI support assistant is an LLM-powered agent that can take real account actions on Facebook and Instagram, such as resetting passwords or reporting content, instead of merely linking to help articles. Prompt injection (OWASP LLM01) is a class of attack where crafted user inputs override an LLM's intended instructions, and it becomes especially dangerous when the model is wired up to high-privilege tools without strict authorization checks on the parameters it can pass.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://freedium-mirror.cfd/https://medium.com/p/296664399696">2 FA bypass after fix via manually injecting "isVerifyAuth" cookie in.....</a></li>
+<li><a href="https://tech.yahoo.com/ai/meta-ai/article/metas-ai-chatbot-reportedly-helped-hackers-steal-instagram-accounts--all-they-had-to-do-was-ask-202138534.html">Meta's AI chatbot reportedly helped hackers steal Instagram ...</a></li>
+<li><a href="https://dev.to/coridev/how-metas-ai-support-bot-got-tricked-into-hijacking-instagram-accounts-29a6">How Meta's AI Support Bot Got Tricked Into Hijacking ...</a></li>
+<li><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM01:2025 Prompt Injection - OWASP Gen AI Security Project</a></li>
 
 </ul>
 </details>
 
-**Discussion**: Commenters expressed shock at Meta's negligence, noting that granting an AI agent the ability to remove 2FA and send emails to arbitrary addresses is highly irresponsible. Some shared personal experiences of account takeovers through human support, highlighting that AI is now replicating existing weaknesses. There was agreement that such privileged tools should never be exposed to automated systems.
+**Discussion**: Commenters argue the core failure is engineering, not AI: the bot should never have had the ability to specify arbitrary recipient addresses, and password reset flows should be hand-coded buttons rather than LLM tool calls. Many also note that human support staff have long been the weakest link (e.g. disabling 2FA on request), and are unsurprised LLMs reproduce the same flaws at scale.
 
-**Tags**: `#security`, `#AI`, `#exploit`, `#Instagram`, `#Meta`
+**Tags**: `#security`, `#ai-safety`, `#llm`, `#meta`, `#account-takeover`
 
 ---
 
 <a id="item-2"></a>
-## [Red Hat npm packages compromised with credential-stealing malware](https://lwn.net/Articles/1075742/) ⭐️ 9.0/10
+## [Stanford CS336: Language Modeling from Scratch (2026 Edition)](https://cs336.stanford.edu/) ⭐️ 8.0/10
 
-Multiple npm packages under the @redhat-cloud-services scope were compromised with a multi-stage credential harvester that executes on npm install and targets cloud and CI/CD credentials, with self-propagation via stolen tokens. This supply chain attack on a widely used Red Hat scope poses significant risk to users, as the malware is a self-propagating worm that bypasses 2FA using npm's bypass_2fa parameter, and exploits a compromised CI/CD pipeline to republish backdoored versions. The malware was published via GitHub Actions OIDC from the RedHatInsights/javascript-clients repository, indicating the upstream CI/CD pipeline itself was compromised. The payload attempts to explicitly bypass StepSecurity Harden-Runner and is obfuscated in a 4.2 MB index.js file.
+Stanford's CS336 course, which teaches students to build large language models entirely from scratch, has been updated for 2026 with current architecture decisions and modern training practices. The course materials, lectures, and assignments are publicly available online. As LLMs increasingly become black boxes consumed via APIs, this course provides one of the few rigorous, end-to-end open curricula for understanding their internals — from tokenizers to transformers to optimizers. It fills a major gap for engineers and researchers who want hands-on mastery rather than just usage skills. Assignments require implementing a BPE tokenizer, a Transformer language model, AdamW optimizer, and training on OpenWebText, with the first assignment alone being a 50-page deep dive. The course suggests cloud GPU options (e.g. B200 at ~$4.99/hr), though students report success on consumer hardware like an RTX 2060 SUPER or Apple Silicon Macs for low-compute exercises.
 
-rss · LWN.net · Jun 1, 14:05
+hackernews · kristianpaul · Jun 1, 14:10 · [Discussion](https://news.ycombinator.com/item?id=48357075)
 
-**Background**: npm packages can execute arbitrary code during installation via 'install' scripts, making them a vector for supply chain attacks. Compromised packages can steal credentials from CI/CD environments, such as GitHub Actions secrets, and use stolen tokens to propagate to other packages, even bypassing two-factor authentication if npm's bypass_2fa parameter is enabled.
+**Background**: CS336 is taught by faculty including Percy Liang and Tatsunori Hashimoto at Stanford, and it walks students through every stage of building a modern LLM. It is positioned as a successor in spirit to earlier Stanford NLP/DL courses like CS224N and CS224D, but reflects the post-transformer, scaling-era reality of language modeling.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://github.com/step-security/harden-runner">GitHub - step-security / harden-runner : Harden-Runner is a CI ...</a></li>
-<li><a href="https://docs.stepsecurity.io/harden-runner">Harden - Runner | StepSecurity</a></li>
+<li><a href="https://stanford-cs336.github.io/">stanford - cs 336 .github.io</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_">Stanford CS 336 Language Modeling from Scratch I 2025 - YouTube</a></li>
 
 </ul>
 </details>
 
-**Discussion**: Community comments on Hacker News emphasize the effectiveness of dependency cooldowns (e.g., 1-2 days delay) to mitigate such attacks, and highlight improvements in package managers like pnpm and yarn 4 that offer similar protections. Some users also note the importance of MFA for publishing and running untrusted code in isolated environments.
+**Discussion**: Learners praise the course as high-quality and up-to-date, especially appreciating its low-compute tips for running on Macs, though several note that the assignments are extremely demanding and took months of part-time work to finish. Some commenters questioned whether the suggested expensive GPU instances are really necessary, sharing that consumer GPUs or Vast.ai 4090 rentals suffice for early-stage experimentation.
 
-**Tags**: `#npm`, `#supply-chain-security`, `#malware`, `#red-hat`, `#credential-theft`
+**Tags**: `#language-models`, `#education`, `#machine-learning`, `#stanford`, `#deep-learning`
 
 ---
 
 <a id="item-3"></a>
-## [MiniMax M3: Open-Weight Frontier Model with 1M Context](https://www.reddit.com/r/LocalLLaMA/comments/1ttdiq0/minimax_m3_coding_agentic_frontier_1m_context/) ⭐️ 9.0/10
+## [Alphabet announces $80B equity capital raise to expand AI infra and compute](https://abc.xyz/investor/news/news-details/2026/Alphabet-Announces-Proposed-80-Billion-Equity-Capital-Raise-to-Expand-AI-Infrastructure-and-Compute-2026-b0myAMewCa/default.aspx) ⭐️ 8.0/10
 
-MiniMax released M3 on June 1, 2026, as the first open-weight model combining frontier-level coding, a 1-million-token context window, and native multimodal capabilities (text, image, video) in a single model. M3 pushes the frontier of LLM capabilities by enabling long-context reasoning and autonomous agentic tasks, which could significantly impact coding assistants, data analysis, and AI agents development. Its open-weight nature allows broad community access and customization. M3 uses sparse attention to achieve 15.6× faster decoding at 1M tokens compared to standard attention, and it outperforms prior models like M2.7 and Claude on agentic benchmarks. The model supports native multimodal inputs including text, images, and video.
+Alphabet announced a proposed $80 billion equity capital raise, including a $10B private placement to Berkshire Hathaway, to fund AI infrastructure and compute expansion.
 
-reddit · r/LocalLLaMA · /u/dryadofelysium · Jun 1, 01:23
+hackernews · gregschlom · Jun 1, 20:55 · [Discussion](https://news.ycombinator.com/item?id=48362515)
 
-**Background**: Large language models (LLMs) traditionally have limited context windows (e.g., 4K-128K tokens), restricting their ability to process long documents or multi-step tasks. Agentic AI refers to autonomous systems that plan, use tools, and adapt to achieve goals. MiniMax M3 combines a 1M-token context with strong agentic capabilities, enabling handling of entire codebases or extended agent sessions in one pass.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://www.aimadetools.com/blog/minimax-m3-complete-guide/">MiniMax M3 : Complete Guide to the Open-Weight Frontier Model ...</a></li>
-<li><a href="https://felloai.com/minimax-m3/">MiniMax M3 : Release Date, Sparse Attention & What to Expect</a></li>
-<li><a href="https://lushbinary.com/blog/minimax-m3-developer-guide-benchmarks-pricing-msa-architecture/">MiniMax M3 Developer Guide: Benchmarks & Pricing | Lushbinary</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#AI`, `#LLM`, `#coding`, `#multimodal`, `#context`
+**Tags**: `#AI infrastructure`, `#Alphabet`, `#finance`, `#data centers`, `#Berkshire Hathaway`
 
 ---
 
 <a id="item-4"></a>
-## [Nvidia Unveils Vera Rubin Platform, Forecasts $1T Sales](https://t.me/zaihuapd/41679) ⭐️ 9.0/10
+## [Anthropic confidentially files draft S-1 with SEC for potential IPO](https://www.anthropic.com/news/confidential-draft-s1-sec) ⭐️ 8.0/10
 
-At GTC, Nvidia announced the Vera Rubin platform featuring the Vera CPU and Rubin GPU, along with integration of Groq 3 LPU, targeting agentic AI infrastructure. CEO Jensen Huang forecast that combined sales of Blackwell and Rubin will reach at least $1 trillion by 2027. This announcement signals a major shift in AI hardware, with Nvidia doubling down on next-generation platforms to sustain its dominance. The trillion-dollar forecast underscores the explosive growth in AI infrastructure spending, affecting cloud providers and enterprises worldwide. The Vera CPU is claimed to be twice as efficient and 50% faster than traditional rack-level CPUs, with partner offerings starting later this year. The platform also incorporates Groq's LPU, a chip purpose-built for inference, aiming to reduce costs and latency.
+Anthropic, PBC has confidentially submitted a draft Form S-1 registration statement to the U.S. Securities and Exchange Commission for a proposed initial public offering of its common stock. The number of shares and price have not yet been set, and the IPO will depend on market conditions and SEC review. An Anthropic IPO would be one of the largest AI-related public listings to date, providing public investors direct exposure to a frontier AI lab and intensifying competitive and financial scrutiny on rivals like OpenAI. It also signals that leading AI companies are maturing into public-market entities despite massive ongoing capital needs and unproven profitability. The filing was made under Rule 135 of the Securities Act of 1933, which permits a basic notice of a proposed offering without constituting an offer to sell. Confidential submission, available to all companies since 2017, lets Anthropic refine its filing with SEC staff before public disclosure of detailed financials.
 
-telegram · zaihuapd · Jun 1, 06:10
+rss · Anthropic News · May 31, 16:00
 
-**Background**: Nvidia's GTC conference is a key event for AI hardware announcements. The Vera Rubin platform follows the Blackwell architecture, targeting the next wave of AI workloads. A Language Processing Unit (LPU) is a custom chip designed specifically for inference, offering faster and more cost-effective AI model execution compared to general-purpose GPUs.
+**Background**: Form S-1 is the SEC registration statement required for U.S. companies to go public. Since 2017, the SEC has allowed any private company to confidentially submit a draft S-1, letting it iterate with regulators before disclosing sensitive financial information publicly; the filing typically becomes public roughly 15 days before the IPO roadshow. Anthropic, founded in 2021 by former OpenAI researchers, is the maker of the Claude family of AI models and has raised tens of billions from investors including Amazon and Google.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://groq.com/">The Groq LPU delivers inference with the speed and cost developers...</a></li>
-<li><a href="https://groq.com/lpu-architecture">LPU | Groq is fast, low cost inference.</a></li>
+<li><a href="https://gilmartinir.com/when-your-s-1-flips-to-public-from-confidential/">When Your S-1 Flips to Public from Confidential</a></li>
+<li><a href="https://www.law.cornell.edu/cfr/text/17/230.135">17 CFR § 230.135 - Notice of proposed registered offerings.</a></li>
+<li><a href="https://www.willkie.com/publications/2025/03/shhhh-sec-expands-opportunities-for-confidential-submissions-of-registration-statements">Shhhh . . . . SEC Expands Opportunities for Confidential ...</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#Nvidia`, `#AI infrastructure`, `#hardware`, `#semiconductor`, `#Vera Rubin`
+**Tags**: `#Anthropic`, `#IPO`, `#AI industry`, `#SEC`, `#business`
 
 ---
 
 <a id="item-5"></a>
-## [Stanford CS336 Publishes AI Agent Guidelines for Students](https://github.com/stanford-cs336/assignment1-basics/blob/main/CLAUDE.md) ⭐️ 8.0/10
+## [NVIDIA releases Cosmos 3 Omnimodal world modelson HF](https://www.reddit.com/r/LocalLLaMA/comments/1tuhea4/nvidia_releases_cosmos_3_omnimodal_world_modelson/) ⭐️ 8.0/10
 
-Stanford's CS336 course has released a CLAUDE.md file providing guidelines for students on using AI agents in assignments, aiming to promote healthy and educational use of AI tools. This initiative reflects the growing need to integrate AI agents into education responsibly, sparking debate on how to design effective instructions that balance learning with assistance. The guidelines are inspired by an earlier AGENTS.md by Carson (of HTMX fame) and have been criticized as overly verbose, potentially exceeding context windows of some AI models.
+NVIDIA released Cosmos 3, a family of 16B and 64B open omnimodal world models on Hugging Face for generating video, image, audio, and action outputs for Physical AI applications.
 
-hackernews · prakashqwerty · Jun 1, 16:41 · [Discussion](https://news.ycombinator.com/item?id=48359232)
+reddit · r/LocalLLaMA · /u/RobotRobotWhatDoUSee · Jun 2, 05:26
 
-**Background**: AI agents are tools that can assist with coding and problem-solving, but their use in education raises concerns about academic integrity and genuine learning. Guidelines like these attempt to set boundaries, instructing the AI to act as a tutor rather than a solution provider.
-
-**Discussion**: The community comments show mixed opinions: some appreciate the effort but find the guidelines too verbose, others suggest learning modes and custom harnesses, and one commenter notes it is a close copy of Carson's earlier work.
-
-**Tags**: `#AI agents`, `#education`, `#guidelines`, `#Stanford`, `#CS336`
+**Tags**: `#nvidia`, `#world-models`, `#multimodal`, `#open-weights`, `#physical-ai`
 
 ---
 
 <a id="item-6"></a>
-## [RGB Normalization: Divide by 255 or 256?](https://30fps.net/pages/255-vs-256-division/) ⭐️ 8.0/10
+## [Intel unveils Crescent Island GPU with up to 480GB LPDDR5X VRAM for AI inference](https://www.reddit.com/r/LocalLLaMA/comments/1tu2kbq/computex_2026_intel_launches_crescent_island_gpu/) ⭐️ 8.0/10
 
-An article on 30fps.net explores the subtle difference between normalizing RGB integer values by 255 versus 256, analyzing how each choice affects color accuracy in computer graphics and image processing. This distinction matters because the normalization factor directly impacts the mapping of integer colors to the floating-point range, influencing rendering pipelines, color conversions, and hardware interfaces like VGA signal generation. Dividing by 256 maps values 0–255 to 0.0–0.996..., leaving 1.0 unattainable, while dividing by 255 maps 255 exactly to 1.0 but creates unequal bin spacing; the article also discusses the use of +0.5 offset and truncation.
+At Computex 2026, Intel announced the Crescent Island GPU based on the Arc Xe 3P architecture, packing up to 480GB of LPDDR5X VRAM, a 350W air-cooled TDP, and broad datatype support spanning FP4/MXFP4 to FP64. By using LPDDR5X instead of HBM, Intel can offer massive VRAM capacity at potentially much lower cost than NVIDIA and AMD's HBM-based accelerators, making it attractive for large-model inference workloads where capacity matters more than peak bandwidth. Crescent Island is positioned as an inference-focused GPU; earlier reports cited a 160GB configuration, while the new Computex disclosure pushes the top SKU to 480GB. Native support for microscaling formats like MXFP4 aligns with newer models such as GPT-OSS that rely on 4-bit quantization.
 
-hackernews · pplanu · Jun 1, 17:37 · [Discussion](https://news.ycombinator.com/item?id=48360054)
+reddit · r/LocalLLaMA · /u/ANR2ME · Jun 1, 19:13
 
-**Background**: RGB color values are commonly stored as 8-bit integers (0–255) per channel, and need normalization to floating-point [0,1] for computation. The choice between 255 and 256 reflects different interpretations: 255 treats the maximum integer as full intensity, while 256 treats the range as equally spaced intervals. This is analogous to the 'max value' vs 'number of steps' distinction in quantization theory.
+**Background**: Xe3P is Intel's next-generation discrete GPU architecture, an enhanced variant of Xe3 used in Panther Lake iGPUs, and will mark Arc's naming transition to the C-series (Celestial). MXFP4 is an OCP-standardized microscaling 4-bit floating point format (E2M1 with a shared exponent over 32 elements) increasingly used to compress LLM weights with minimal accuracy loss. HBM (High Bandwidth Memory) offers extreme bandwidth but is expensive and supply-constrained, while LPDDR5X trades bandwidth for far higher capacity per dollar.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/RGB_color_model">RGB color model - Wikipedia</a></li>
+<li><a href="https://www.neowin.net/news/computex-2026-intel-launches-crescent-island-gpu-with-up-to-480gb-vram/">Computex 2026: Intel launches Crescent Island GPU with... - Neowin</a></li>
+<li><a href="https://videocardz.com/newz/intel-confirms-xe3p-will-mark-arc-naming-switch-to-c-series">Intel confirms Xe3P will mark Arc naming switch to C-Series</a></li>
+<li><a href="https://localaimaster.com/blog/intel-crescent-island-ai-gpu-2025-deep-dive">Intel Crescent Island AI GPU – Complete Guide 2025 | Local AI Master</a></li>
 
 </ul>
 </details>
 
-**Discussion**: Commenters note that for 8-bit displays the difference is negligible, but for analog video signal generation it becomes critical. Some advocate adding 0.5 before truncation to avoid half-sized bins at extremes, while others argue that centered sampling models continuous light intensity more accurately.
-
-**Tags**: `#computer graphics`, `#color representation`, `#RGB normalization`, `#image processing`
+**Tags**: `#intel`, `#gpu`, `#ai-hardware`, `#local-llm`, `#computex`
 
 ---
 
 <a id="item-7"></a>
-## [Stanford CS336: Language Modeling from Scratch](https://cs336.stanford.edu/) ⭐️ 8.0/10
+## [Can public markets absorb mega-IPOs from Anthropic, SpaceX, and OpenAI?](https://www.economist.com/finance-and-economics/2026/06/01/can-the-stockmarket-swallow-anthropic-spacex-and-openai) ⭐️ 7.0/10
 
-Stanford University's CS336 course offers a comprehensive, hands-on curriculum for building language models from scratch, covering recent advances such as transformers and pretraining. This course fills a gap in educational resources by providing a deep, implementation-focused understanding of modern language models, which is valuable for practitioners and researchers. The course requires significant compute resources, with assignments involving training GPT-2 scale models; the instructor suggests using cloud GPUs like B200 at $4.99/hour.
+The Economist examines whether US public markets have the capacity to absorb the looming IPOs of three private giants—Anthropic, SpaceX, and OpenAI—whose combined valuations could reach into the multiple trillions of dollars. These would be among the largest IPOs in history and could reshape index composition, redirect retirement and passive investment flows, and serve as a bellwether for whether the AI boom is sustainable or a bubble nearing its peak. Anthropic is reportedly targeting roughly a $1 trillion valuation against $47bn in revenue, while index providers have allegedly relaxed profitability requirements and seasoning windows to accommodate SpaceX, potentially channeling trillions in passive money into the listing.
 
-hackernews · kristianpaul · Jun 1, 14:10 · [Discussion](https://news.ycombinator.com/item?id=48357075)
+hackernews · 1vuio0pswjnm7 · Jun 1, 23:45 · [Discussion](https://news.ycombinator.com/item?id=48364055)
 
-**Background**: Language modeling is a fundamental task in NLP, where models learn to predict the next word in a sequence. Recent advances like the Transformer architecture and large-scale pretraining have led to powerful models like GPT. CS336 teaches the full pipeline from data processing to training and evaluation, with all code written from scratch.
+**Background**: Anthropic, SpaceX, and OpenAI are currently among the world's most valuable private companies, having raised tens of billions in private markets while delaying public listings. An IPO requires the market to absorb a large new supply of shares, and inclusion in major indices like the S&P 500 forces passive funds (including 401(k) retirement plans) to buy the stock. Historically, indices required companies to be profitable and trade publicly for a seasoning period before inclusion.
 
-**Discussion**: Community members shared mixed experiences: one noted the course is very time-consuming even for those with deep learning background, while another reported success in implementing a GPT-1 variant using Claude AI. Another commenter questioned the need for expensive GPUs, suggesting cheaper alternatives like a 4090.
+**Discussion**: Commenters debate whether the markets can absorb the supply—some argue $200bn is feasible given $660bn annual household equity buying, while others worry about index rule changes forcing passive money into unprofitable companies. Several note Anthropic's revenue multiple is not unreasonable versus Google's 2004 IPO, while skeptics question whether trillion-dollar valuations reflect any real improvement in quality of life and suspect founders are racing to IPO before the bubble bursts.
 
-**Tags**: `#language modeling`, `#stanford`, `#deep learning`, `#NLP`, `#course`
+**Tags**: `#finance`, `#IPO`, `#AI-industry`, `#SpaceX`, `#valuations`
 
 ---
 
 <a id="item-8"></a>
-## [Life's Chemistry May Be Inherently Geological](https://www.quantamagazine.org/the-dirt-that-refused-to-die-20260601/) ⭐️ 8.0/10
+## [OpenAI frontier models and Codex now available on AWS Bedrock](https://openai.com/index/openai-frontier-models-and-codex-are-now-available-on-aws/) ⭐️ 7.0/10
 
-A Quanta Magazine article reports that what appear to be biochemical processes may actually be inherent geological features, challenging conventional assumptions about the origins of life. This paradigm-shifting hypothesis blurs the line between geology and biology, potentially redefining how we search for life beyond Earth and understand life's emergence on our planet. The article builds on decades of speculation that geochemistry can spawn biochemistry, citing examples like geothermal processes creating stable energy gradients that manufacture organic compounds.
+OpenAI's frontier models and Codex coding agent are now generally available on AWS, accessible via Amazon Bedrock so enterprises can use OpenAI through their existing AWS environments, controls, and procurement workflows. AWS Bedrock has been a major distribution channel where Anthropic's Claude dominated due to enterprise procurement and data-governance constraints; OpenAI's arrival directly challenges that lock-in and unlocks a huge enterprise customer base that previously couldn't easily use OpenAI APIs. The offering covers both OpenAI's frontier (general-purpose) models and Codex, OpenAI's agentic coding tool, allowing customers to keep data within AWS boundaries and bill through existing AWS contracts rather than setting up a separate OpenAI vendor relationship.
 
-hackernews · speckx · Jun 1, 15:11 · [Discussion](https://news.ycombinator.com/item?id=48357905)
+hackernews · OpenAI Blog · Jun 1, 21:50 · [Discussion](https://news.ycombinator.com/item?id=48363132)
 
-**Background**: Abiogenesis is the natural process by which life arises from non-living matter. Geochemical processes that mimic biochemistry, such as the formation of organic compounds at hydrothermal vents, have long been studied as potential precursors to life.
+**Background**: Amazon Bedrock, launched in 2023, is AWS's managed service offering a unified API to foundation models from multiple AI vendors, competing with Microsoft Azure AI Foundry and Google Cloud's Vertex AI. Many large enterprises mandate using such hyperscaler platforms because their data governance, security reviews, and procurement contracts already cover the cloud provider as an approved data processor. Codex is OpenAI's coding agent that automates software engineering tasks like feature development, refactors, and pull requests, available via CLI and IDE integrations.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://www.allaboutscience.org/abiogenesis.htm">Abiogenesis</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Biosignature">Biosignature - Wikipedia</a></li>
+<li><a href="https://aws.amazon.com/bedrock/">Amazon Bedrock – Build genAI applications and agents at production...</a></li>
+<li><a href="https://en.wikipedia.org/wiki/AWS_Bedrock">AWS Bedrock</a></li>
 
 </ul>
 </details>
 
-**Discussion**: Commenters noted this idea has been speculated for at least a decade, with references to abiogenic petroleum and excitement for missions to Europa and Enceladus. One comment raised questions about protein mass spectrometry to detect residual enzymes.
+**Discussion**: Commenters with enterprise experience overwhelmingly view this as a major win for OpenAI, explaining that strict procurement rules and data-governance contracts often force teams to use whatever Bedrock offers — which previously meant Claude by default. Several note this should worry Anthropic, since much of Claude's enterprise adoption was driven by AWS availability rather than model preference.
 
-**Tags**: `#origins of life`, `#geochemistry`, `#astrobiology`, `#biochemistry`, `#earth science`
+**Tags**: `#OpenAI`, `#AWS`, `#enterprise`, `#AI`, `#Bedrock`
 
 ---
 
 <a id="item-9"></a>
-## [Nvidia Unveils RTX Spark Arm Processor for Windows](https://www.nvidia.com/en-us/products/rtx-spark/) ⭐️ 8.0/10
+## [AI Agent Guidelines for CS336 at Stanford](https://github.com/stanford-cs336/assignment1-basics/blob/main/CLAUDE.md) ⭐️ 7.0/10
 
-Nvidia has announced the RTX Spark, an Arm-based processor for Windows laptops and desktops that integrates a CPU, GPU, and AI accelerator, targeting a 1-petaflop performance level. The chip is designed to compete with Apple's M-series and traditional x86 chips from Intel and AMD. This marks Nvidia's first major push into the CPU market for consumer PCs, potentially disrupting the long-standing x86 dominance by Intel and AMD. If successful, it could accelerate the adoption of Windows on Arm and offer an alternative with superior AI and graphics capabilities. The RTX Spark chip includes a full CUDA and RTX ecosystem, supporting over 100 Windows software providers for native Arm ports, including Adobe, Blender, and games like League of Legends. However, early reviews note concerns about memory speed being half that of Apple's M5 and one-third of the M3 Ultra.
+Stanford's CS336 course publishes a CLAUDE.md guiding students on appropriate AI agent use for assignments, treating agents as learning aids rather than solution generators.
 
-hackernews · shenli3514 · Jun 1, 05:24 · [Discussion](https://news.ycombinator.com/item?id=48352939)
+hackernews · prakashqwerty · Jun 1, 16:41 · [Discussion](https://news.ycombinator.com/item?id=48359232)
 
-**Background**: Arm-based processors have been used primarily in mobile devices, but recently Apple's M-series chips demonstrated that high-performance Arm chips can excel in laptops and desktops. Nvidia already has expertise in AI and GPUs, and with RTX Spark, it combines these with an Arm CPU to create a unified chip. Windows on Arm has historically struggled with software compatibility, but Nvidia's market influence is helping to secure native ports from major developers.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://www.nvidia.com/en-us/products/rtx-spark/">Slim Laptops & Small Desktops | NVIDIA RTX Spark</a></li>
-<li><a href="https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2pwMGY2YkVSRUpfTTB4UnFYRk5TZ0FQAQ?hl=en-NG&gl=NG&ceid=NG:en">Google News - Nvidia unveils RTX Spark chip for AI personal...</a></li>
-
-</ul>
-</details>
-
-**Discussion**: The community reaction is mixed: some are excited about Nvidia's ability to bring Arm ports to major games and creative apps, while others are skeptical about compatibility and performance, particularly memory speed compared to Apple's chips. One user noted that the RTX Spark seems like a rebranded DGX Spark in laptop form, with limited memory bandwidth.
-
-**Tags**: `#Nvidia`, `#RTX Spark`, `#Arm`, `#AI`, `#Hardware`
+**Tags**: `#ai-agents`, `#education`, `#claude`, `#stanford`, `#cs-curriculum`
 
 ---
 
 <a id="item-10"></a>
-## [Anthropic Files for IPO with SEC](https://www.anthropic.com/news/confidential-draft-s1-sec) ⭐️ 8.0/10
+## [Should you normalize RGB values by 255 or 256?](https://30fps.net/pages/255-vs-256-division/) ⭐️ 7.0/10
 
-Anthropic has confidentially submitted a draft S-1 registration statement to the U.S. Securities and Exchange Commission, signaling its intention to go public. The company stated that the final decision to launch an IPO will depend on market conditions and other factors. As a leading AI company, Anthropic's potential IPO marks a significant milestone for the industry and could expose retail and 401(k) investors to AI stocks. The shift from private to public markets will subject the company to quarterly earnings scrutiny, which may impact its long-term strategy and transparency. The confidential filing allows Anthropic to keep its financial details and business plans private during the SEC review process. The number of shares to be offered and the price range have not yet been determined, and the IPO may not proceed if conditions are unfavorable.
+A detailed blog post examines whether 8-bit RGB integers should be converted to floating-point by dividing by 255 or 256, analyzing the trade-offs through quantization theory and practical graphics pipelines. This seemingly trivial choice affects color accuracy, gamma correction, and texture sampling in graphics engines, image processors, and ML pipelines, where inconsistent conventions can introduce subtle bias and rounding errors across the stack. The article distinguishes "mid-rise" and "mid-tread" quantizers; dividing by 255 maps endpoints exactly (0→0, 255→1) but makes 127.5 the midpoint, while dividing by 256 gives uniform bucket widths matching GPU UNORM conventions but never reaches exactly 1.0.
 
-hackernews · surprisetalk · Jun 1, 16:00 · [Discussion](https://news.ycombinator.com/item?id=48358646)
+hackernews · pplanu · Jun 1, 17:37 · [Discussion](https://news.ycombinator.com/item?id=48360054)
 
-**Background**: A Form S-1 is a registration statement required by the SEC for companies planning to go public, providing detailed information about the business, financials, and risks. Confidential IPO filings, allowed under the JOBS Act for emerging growth companies, enable firms to negotiate with the SEC privately before making their filings public, reducing market speculation during the review process.
+**Background**: When 8-bit color values (0–255) are processed in shaders or image algorithms, they are usually converted to floats in [0,1]. Quantization theory describes two canonical schemes: mid-tread (centered on integer values) and mid-rise (values centered between steps), each producing different rounding behavior. Modern GPUs standardize on the UNORM format, which divides by 255 to make endpoints exact, but some signal-processing contexts (like ADCs and DACs) prefer dividing by 256.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Form_S-1">Form S-1 - Wikipedia</a></li>
-<li><a href="https://www.newsfilecorp.com/filing/edgar/forms1.php">Form S-1 Filing Service SEC EDGAR</a></li>
+<li><a href="https://30fps.net/pages/255-vs-256-division/">Should you normalize RGB values by 255 or 256?</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Color_quantization">Color quantization - Wikipedia</a></li>
 
 </ul>
 </details>
 
-**Discussion**: The community expressed concerns about retail investors gaining exposure to AI stocks through index funds, the pressure of quarterly earnings calls, and the race to go public before market conditions change. Some commenters also noted that SpaceX recently submitted an amendment to its S-1, highlighting a broader trend of high-profile IPOs.
+**Discussion**: Commenters note the practical difference is imperceptible at 8 bits per channel on uncalibrated displays, but it matters for VGA signal generation, HDR pipelines, and consistency with GPU UNORM conventions. Several readers from electrical engineering backgrounds defended mid-tread quantization as standard in ADCs, while others argued the "256 steps" framing is itself a fallacy since 8 bits encode 256 values with 255 intervals between them.
 
-**Tags**: `#AI`, `#IPO`, `#Anthropic`, `#finance`, `#regulation`
+**Tags**: `#graphics`, `#color`, `#quantization`, `#numerical-methods`, `#image-processing`
 
 ---
 
 <a id="item-11"></a>
-## [Recording optimized kernel function signatures in BTF](https://lwn.net/Articles/1073762/) ⭐️ 8.0/10
+## [What appear to be biochemical processes may be a natural feature of geology](https://www.quantamagazine.org/the-dirt-that-refused-to-die-20260601/) ⭐️ 7.0/10
 
-Alan Maguire and Yonghong Song proposed recording changed function signatures in BTF debugging info to handle three common compiler optimizations that alter kernel function signatures. This work enables accurate tracing and BPF programs to work with optimized kernel functions, improving the kernel's debugging and observability infrastructure. The three cases are: argument removal, field extraction from structures, and struct pointer to value conversion. The approach uses the pahole utility to reverse-engineer DWARF data into BTF true signatures.
+Researchers find that processes resembling biochemistry may actually be intrinsic features of geology, blurring the line between life and non-life chemistry.
 
-rss · LWN.net · Jun 1, 18:59
+hackernews · speckx · Jun 1, 15:11 · [Discussion](https://news.ycombinator.com/item?id=48357905)
 
-**Background**: BTF (BPF Type Format) is a debug info format used by the Linux kernel for BPF programs and tracing. DWARF is a broader debug format that represents source-level types, but its maintainers rejected extending it for runtime signature information. Pahole is a tool that parses DWARF and generates BTF, commonly used in kernel builds.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://www.kernel.org/doc/html/next/bpf/btf.html">BPF Type Format ( BTF ) — The Linux Kernel documentation</a></li>
-<li><a href="https://cateee.net/lkddb/web-lkddb/DEBUG_INFO_BTF.html">Linux Kernel Driver DataBase: CONFIG_ DEBUG _ INFO _ BTF ...</a></li>
-<li><a href="https://android.googlesource.com/kernel/build/+/master/kleaf/docs/btf.md">BTF debug information</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#kernel`, `#BTF`, `#BPF`, `#tracing`, `#compiling`
+**Tags**: `#geochemistry`, `#astrobiology`, `#abiogenesis`, `#science`, `#origins-of-life`
 
 ---
 
 <a id="item-12"></a>
-## [Top LightGBM Feature Hurt Predictions Due to Label Variance](https://www.reddit.com/r/MachineLearning/comments/1tu0y14/why_our_1_lightgbm_feature_by_importance_made/) ⭐️ 8.0/10
+## [Age verification for social media, the beginning of the end for a free internet?](https://mullvad.net/en/blog/age-verification-for-social-media-the-beginning-of-the-end-for-a-free-internet) ⭐️ 7.0/10
 
-A practitioner found that a Bayesian target encoder feature ranked #1 by LightGBM importance actually worsened test MAPE by 0.28 percentage points in a 4-seed × 3-variant ablation study. This highlights a common pitfall in gradient boosting where feature importance can be misleading due to the model capturing irreducible label variance, reminding practitioners to validate important features with ablation studies. The encoder was designed to isolate within-reference pricing dynamics but instead learned splits that failed to generalize because the signal came from unobserved factors like condition nuance, seller behavior, and timing.
+Mullvad warns that age verification mandates for social media could fundamentally erode internet freedom and anonymity, sparking debate about implementation accuracy and privacy-preserving alternatives.
 
-reddit · r/MachineLearning · /u/Nj-yeti · Jun 1, 18:20
+hackernews · StrLght · Jun 1, 23:22 · [Discussion](https://news.ycombinator.com/item?id=48363882)
 
-**Background**: LightGBM is a gradient boosting framework that can compute feature importance scores based on how often a feature is used for splitting. However, high importance does not guarantee predictive value, especially when the feature captures noise rather than signal. Bayesian target encoding maps categorical variables to numerical representations using target statistics, but can leak label information if not regularized properly.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://medium.com/data-science/target-encoding-and-bayesian-target-encoding-5c6a6c58ae8c">Target Encoding and Bayesian Target Encoding | by Michael ...</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Gradient_boosting">Gradient boosting - Wikipedia</a></li>
-<li><a href="https://bayte.readthedocs.io/en/latest/index.html">Bayesian target encoding documentation - bayte.readthedocs.io</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#LightGBM`, `#feature importance`, `#ablation study`, `#gradient boosting`, `#machine learning`
+**Tags**: `#privacy`, `#regulation`, `#age-verification`, `#internet-policy`, `#identity`
 
 ---
 
 <a id="item-13"></a>
-## [MLE-Bench gains largely due to better models, not algorithms](https://www.reddit.com/r/MachineLearning/comments/1ttu47l/how_much_of_mlebenchs_gains_are_the_algorithm_vs/) ⭐️ 8.0/10
+## [Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains](https://huggingface.co/blog/JetBrains/mellum2-launch) ⭐️ 7.0/10
 
-A critical analysis reveals that the perceived gains in MLE-Bench scores from 30% to 80% over two years are predominantly due to improved base models and problem shifts, not genuine algorithmic progress. This finding challenges the notion of rapid algorithmic advancement in automated ML, and the introduction of FML-Bench provides a standardized evaluation to isolate algorithmic efficiency, which is crucial for fair benchmarking. When controlling for the same step budget and models, and testing on different tasks, the two-year-old AIDE algorithm matches modern agent/evolutionary search systems, suggesting minimal algorithmic improvement.
+JetBrains announces Mellum2, a 12B mixture-of-experts model targeted at code-related tasks.
 
-reddit · r/MachineLearning · /u/Educational_Strain_3 · Jun 1, 14:34
+rss · Hugging Face Blog · Jun 1, 15:45
 
-**Background**: MLE-Bench is a benchmark for automated machine learning research that measures performance on machine learning engineering tasks. FML-Bench is a new benchmark that unifies the code editing agent, step definition, and validation/test split to more fairly evaluate algorithmic efficiency separate from model improvements and problem design choices.
-
-**Tags**: `#machine learning`, `#benchmarking`, `#automated ML`, `#algorithms`, `#AI research`
+**Tags**: `#LLM`, `#MoE`, `#JetBrains`, `#code-models`, `#AI`
 
 ---
 
 <a id="item-14"></a>
-## [NVIDIA Announces Nemotron 3 Ultra LLM](https://www.reddit.com/r/LocalLLaMA/comments/1tthkh5/nvidia_announces_nemotron_3_ultra/) ⭐️ 8.0/10
+## [Simon Willison: AI coding agents as a 'thermonuclear ADHD amplifier'](https://simonwillison.net/2026/May/31/the-solution-might-be-cancelling-my-ai-subscription/#atom-everything) ⭐️ 7.0/10
 
-NVIDIA has announced the Nemotron 3 Ultra, the largest model in its new Nemotron 3 family of open-source large language models, designed for agentic AI applications. This release provides the AI community with a powerful, open-weight model that balances efficiency and accuracy, enabling developers to build sophisticated AI agents locally or in the cloud. The Nemotron 3 family includes three sizes: Nano, Super, and Ultra, with open weights, training data, and recipes, making it the most efficient family of open models for agentic AI with leading accuracy.
+Simon Willison endorses David Wilson's blog post arguing that AI coding tools like Claude have become an attention-fragmenting force, spawning dozens of half-finished side projects rather than solving the user's original problem. Wilson concludes the only way he can manage the tool is to cancel his AI subscription. This is a notable cultural critique from respected voices in the AI developer community, pushing back against the productivity narrative around coding agents and raising concerns about psychological side-effects of frictionless creation. It suggests the real skill to cultivate in the AI era may be discipline and restraint, not just prompting ability. Wilson catalogued 16+ projects he didn't intend to start, all spawned from 'quick script' prompts that ballooned into hour-long sessions. Willison notes coding agents can produce polished projects with tests and docs in under an hour, raising the question of what value abandoned artifacts actually have.
 
-reddit · r/LocalLLaMA · /u/themixtergames · Jun 1, 04:34
+rss · Simon Willison · May 31, 16:31
 
-**Background**: Nemotron is NVIDIA's family of open-source large language models designed for agentic AI, which are AI systems that can autonomously reason and act. The Nemotron 3 series continues this line with improved efficiency and accuracy, targeting applications like autonomous agents and conversational AI.
+**Background**: Coding agents like Claude Code, Cursor, and Aider can autonomously write, test, and iterate on code from natural language prompts, dramatically lowering the cost of starting new software projects. Simon Willison is a prominent technologist (co-creator of Django) whose blog is widely read in the AI/developer space for hands-on commentary on LLM tools.
 
-<details><summary>References</summary>
-<ul>
-<li><a href="https://research.nvidia.com/labs/nemotron/Nemotron-3/">NVIDIA Nemotron 3 Family of Models</a></li>
-<li><a href="https://nvidianews.nvidia.com/news/nvidia-debuts-nemotron-3-family-of-open-models">NVIDIA Debuts Nemotron 3 Family of Open Models</a></li>
-<li><a href="https://developer.nvidia.com/nemotron">Nemotron AI Models | NVIDIA Developer</a></li>
+**Discussion**: Interestingly, the linked Hacker News thread features several ADHD readers reporting the opposite experience: AI agents help them finish side projects for the first time, maintain focus, and feel like they have a support team. This counterpoint suggests the tools' attentional impact varies significantly by individual cognitive style and work habits.
 
-</ul>
-</details>
-
-**Tags**: `#AI`, `#NVIDIA`, `#LLM`, `#Machine Learning`, `#NLP`
+**Tags**: `#AI`, `#productivity`, `#developer-experience`, `#commentary`, `#Claude`
 
 ---
 
 <a id="item-15"></a>
-## [NVIDIA DLSS 4.5 Ray Reconstruction Coming to All RTX GPUs in August](https://videocardz.com/newz/nvidia-dlss-4-5-ray-reconstruction-coming-in-august-for-rtx-20-30-40-and-50-series) ⭐️ 8.0/10
+## [Latent Space interviews Ethan He on xAI's Grok Imagine and video agents](https://www.latent.space/p/video-agents) ⭐️ 7.0/10
 
-NVIDIA announced DLSS 4.5 Ray Reconstruction, which will be available via the NVIDIA App in August for all GeForce RTX 20, 30, 40, and 50 series GPUs. The update introduces a second-generation Transformer model offering 35% more compute and 20% more parameters, improving ray tracing accuracy, temporal stability, and motion clarity. This update benefits a wide range of RTX users across multiple generations by enhancing ray tracing and path tracing visuals without requiring new hardware. It also expands support to 27 games at launch and Blender Cycles, making high-quality ray tracing more accessible in both gaming and creative workflows. The new Transformer model in DLSS 4.5 improves upon the previous version with faster performance and higher quality, while maintaining similar overall performance to the current version. Blender 5.3, scheduled for fall 2025, will integrate the denoiser for real-time viewport previews.
+The Latent Space podcast published a deep-dive interview with Ethan He, who led xAI's Grok Imagine, covering how the video generation model was built in three months and why he believes 'video agents' are the next frontier. Video generation is one of the most competitive AI frontiers (alongside OpenAI's Sora and Google's Veo), and insider details on xAI's rapid development reveal how frontier labs build multimodal systems and where the field is heading toward interactive world models. The interview discusses the distinction between video generation models (focused on photorealistic pixels) and world models (structured, interactive environments), Grok Imagine's agent mode for stitching long videos, and why He thinks the product is underrated relative to competitors.
 
-telegram · zaihuapd · Jun 1, 07:51
+rss · Latent Space · Jun 1, 15:41
 
-**Background**: DLSS (Deep Learning Super Sampling) is NVIDIA's AI-powered upscaling technology that uses deep learning to reconstruct higher-resolution images from lower-resolution inputs. Ray Reconstruction is a feature that replaces traditional denoising methods with an AI network to produce more accurate and stable ray-traced lighting. The Transformer model is a neural network architecture that has been adapted for real-time graphics, offering better handling of complex scenes and temporal data.
+**Background**: Grok Imagine is xAI's multimodal image-and-video generator that supports text, image, audio, and video inputs and includes an 'Imagine Agent Mode' for iterative creation and stitching. The broader debate between video models and world models centers on whether AI should generate pixels directly or simulate interactive 3D environments — a key question for both entertainment and robotics/embodied AI.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://www.nvidia.com/en-us/geforce/news/dlss4-multi-frame-generation-ai-innovations/">NVIDIA DLSS 4 Introduces Multi Frame Generation... | NVIDIA</a></li>
-<li><a href="https://www.nvidia.com/en-us/geforce/news/nvidia-dlss-3-5-ray-reconstruction/">NVIDIA DLSS 3.5: Enhancing Ray Tracing With AI; Coming This</a></li>
+<li><a href="https://imagine-grok.com/">Grok Imagine - Free AI Image & Video Generator | Grok Spicy ...</a></li>
+<li><a href="https://www.xunhuang.me/blogs/world_model.html">Towards Video World Models - xunhuang.me</a></li>
+<li><a href="https://docs.x.ai/developers/model-capabilities/video/generation">Video Generation | xAI Docs</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#NVIDIA`, `#DLSS`, `#Ray Tracing`, `#GPU`, `#Graphics`
-
----
-
-<a id="item-16"></a>
-## [California bill passes requiring offline play after server shutdown](https://www.eurogamer.net/stop-killing-games-passes-floor-vote-california) ⭐️ 8.0/10
-
-The California Assembly passed the Protect Our Games Act (AB 1921) with a 43-16 vote, requiring game publishers to provide offline versions or community servers before shutting down online services, or offer full refunds. This bill represents a major legislative milestone for digital preservation and consumer rights in gaming, potentially setting a precedent that could compel publishers to maintain playability of purchased games indefinitely. The bill applies to digital games released or resold after January 1, 2027, and requires at least 60 days' notice before service termination. Publishers unable to provide offline play must issue full refunds.
-
-telegram · zaihuapd · Jun 1, 12:01
-
-**Background**: The bill is a key victory for the 'Stop Killing Games' movement, which began in 2024 after Ubisoft shut down servers for 'The Crew', making the game unplayable. Similar consumer protection initiatives in Europe have garnered over 1.3 million signatures. The legislative process now moves to the California State Senate, with the bill set to take effect in 2027 if passed.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://www.eurogamer.net/stop-killing-games-passes-floor-vote-california">Stop Killing Games consumer protection bill passes... | Eurogamer.net</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Stop_Killing_Games">Stop Killing Games - Wikipedia</a></li>
-<li><a href="https://www.allkeyshop.com/blog/california-assembly-passes-video-game-preservation-bill-news-d/">California Assembly Passes Bill Mandating Video Game Preservation</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#gaming`, `#digital preservation`, `#consumer rights`, `#legislation`, `#game preservation`
+**Tags**: `#AI`, `#video-generation`, `#xAI`, `#world-models`, `#generative-models`
 
 ---
