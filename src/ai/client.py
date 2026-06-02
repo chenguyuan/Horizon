@@ -281,6 +281,10 @@ class OpenAIClient(AIClient):
             request_kwargs["temperature"] = temperature
         if self.provider not in self._NO_RESPONSE_FORMAT:
             request_kwargs["response_format"] = {"type": "json_object"}
+        # 豆包 reasoning 模型需要显式关闭 thinking 才能避免输出超长 CoT
+        base_url = str(getattr(self.client, "base_url", "") or "")
+        if "volces.com" in base_url or self.provider == "doubao":
+            request_kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
         return await self.client.chat.completions.create(**request_kwargs)
 
     @staticmethod

@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 # Horizon daily run + deploy to GitHub Pages
+# 浪浪定制版（基于原作者 daily-run.sh）：
+#   - 不再 git pull（fork 已经偏离 upstream）
+#   - 检查 copilot-proxy 健康
+#   - 推到 gh-pages 分支（用 worktree）
+#
 # Usage: ./scripts/daily-run.sh
-# Cron:  0 8 * * * /path/to/horizon/scripts/daily-run.sh >> /path/to/horizon/logs/cron.log 2>&1
+# Cron:  通过 OpenClaw cron 调用
 
 set -euo pipefail
 
@@ -11,35 +16,64 @@ LOG_PREFIX="[$(date '+%Y-%m-%d %H:%M:%S')]"
 
 cd "$PROJECT_DIR"
 
-echo "$LOG_PREFIX Starting Horizon daily run..."
+echo "$LOG_PREFIX 🚀 Horizon daily run start"
 
-# 1. Pull latest code
-git pull --quiet origin main
+# 1. 检查 copilot-proxy 健康
+if ! curl -s --max-time 3 http://127.0.0.1:4399/v1/models > /dev/null; then
+  echo "$LOG_PREFIX ❌ copilot-proxy 未响应，尝试重启..."
+  systemctl --user restart copilot-proxy
+  sleep 5
+  if ! curl -s --max-time 3 http://127.0.0.1:4399/v1/models > /dev/null; then
+    echo "$LOG_PREFIX ❌ copilot-proxy 启动失败，退出"
+    exit 1
+  fi
+fi
+echo "$LOG_PREFIX ✅ copilot-proxy 健康"
 
-# 2. Install/update dependencies
+# 2. 同步依赖（如有变化）
 uv sync --quiet
 
-# 3. Run Horizon
+# 3. 跑 Horizon
+echo "$LOG_PREFIX 🤖 Running Horizon (24h window)..."
 uv run horizon --hours 24
 
-# 4. Deploy docs to gh-pages
-echo "$LOG_PREFIX Deploying to gh-pages..."
+# 4. 检查产出
+DATE=$(date +'%Y-%m-%d')
+EN_FILE="docs/_posts/${DATE}-summary-en.md"
+ZH_FILE="docs/_posts/${DATE}-summary-zh.md"
+if [ ! -f "$EN_FILE" ] || [ ! -f "$ZH_FILE" ]; then
+  echo "$LOG_PREFIX ❌ 双语 daily 未完整生成: en=$([ -f "$EN_FILE" ] && echo OK || echo MISS), zh=$([ -f "$ZH_FILE" ] && echo OK || echo MISS)"
+  exit 1
+fi
+echo "$LOG_PREFIX ✅ 双语 daily 已生成"
 
-# Use a temporary worktree to update gh-pages without switching branches
+# 5. 部署到 gh-pages（用 worktree 避免切分支）
+echo "$LOG_PREFIX 📤 Deploying to gh-pages..."
+
 TMPDIR=$(mktemp -d)
-trap "rm -rf $TMPDIR" EXIT
+trap "git worktree remove --force $TMPDIR 2>/dev/null; rm -rf $TMPDIR" EXIT
 
-git fetch origin gh-pages:gh-pages 2>/dev/null || git checkout --orphan gh-pages && git checkout main
+# 拉最新 gh-pages
+git fetch origin gh-pages:gh-pages 2>/dev/null || true
 
 git worktree add "$TMPDIR" gh-pages
+# 累积归档：保留旧 _posts，仅复制 docs 到 gh-pages 工作树
 cp -r docs/* "$TMPDIR/"
 
 cd "$TMPDIR"
-git add -A
-git commit -m "Daily Summary: $(date '+%Y-%m-%d')" || { echo "$LOG_PREFIX Nothing to commit."; exit 0; }
-git push origin gh-pages
+git -c user.email="xiaolang@openclaw.local" -c user.name="xiaolang-bot" \
+  add -A
+if git diff --cached --quiet; then
+  echo "$LOG_PREFIX ℹ️ 无变更，跳过 commit"
+else
+  git -c user.email="xiaolang@openclaw.local" -c user.name="xiaolang-bot" \
+    commit -m "Daily Summary: $DATE"
+  git push origin gh-pages
+  echo "$LOG_PREFIX ✅ 已推到 gh-pages"
+fi
 
 cd "$PROJECT_DIR"
-git worktree remove "$TMPDIR"
+git worktree remove --force "$TMPDIR" 2>/dev/null || true
 
-echo "$LOG_PREFIX Done."
+echo "$LOG_PREFIX 🌐 https://chenguyuan.github.io/Horizon/"
+echo "$LOG_PREFIX ✨ Done."
